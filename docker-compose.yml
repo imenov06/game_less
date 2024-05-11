@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  database:
+    image: postgres:16.2
+    container_name: less_play_db
+    environment:
+      POSTGRES_DB: "less_play_db"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "1234"
+    ports:
+      - "5434:5432"
+  web:
+    build:
+      context: ./web
+    container_name: "less_play_web"
+    env_file:
+      - web/.env
+    depends_on:
+      - database
+    command: [ "/app/init.sh" ]
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - web
