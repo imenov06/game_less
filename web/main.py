@@ -12,6 +12,11 @@ app.include_router(courses_router)
 app.include_router(game_router)
 
 
+@app.get("/")
+async def main():
+    return {"Hello, world!"}
+
+
 @app.post("/insert_data")
 async def insert_base_data():
     await insert_users()
